@@ -18,13 +18,20 @@ router.get('/', async (req, res) => {
 // get one product
 router.get('/:id', async (req, res) => {
   try {
+    // Find a product by its primary key and include associated products
     const product = await Product.findByPk(req.params.id, {
       include: [{ model: Category }, { model: Tag }],
     });
-    !product
-      ? res.status(404).json({ message: "Request unable to be fulfilled, Product not found!" })
-      : res.status(200).json(product);
+
+    // Check if the prduct is null (product not found)
+   if  (!product) {
+     return res.status(404).json({ message: "Request unable to be fulfilled, Product not found!" })
+   }
+
+    // Respond with the fetched product information
+    return res.status(200).json(product);
   } catch (err) {
+    // Handle any errors that occur during the fetching process
     return res.status(500).json({ message: "Request unable to be fulfilled, Product retrieval failed!" });
   }
 });

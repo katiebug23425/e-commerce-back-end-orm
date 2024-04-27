@@ -51,12 +51,36 @@ router.post('/', async (req, res) => {
   }
 });
 
-router.put('/:id', (req, res) => {
-  // update a tag's name by its `id` value
+router.put('/:id', async (req, res) => {
+  try {
+    const updatedTag = await Tag.update(req.body, {
+      where: { id: req.params.id },
+    });
+    if (!updatedTag[0]) {
+      return res.status(400).json({ message: "Request unable to be fulfilled, no tag with this id found!" })
+    }
+      return res.status(200).json(updatedTag);
+  } catch (err) {
+    return res.status(500).json({ message: "Request unable to be fulfilled, tag update failed!" });
+  }
 });
 
-router.delete('/:id', (req, res) => {
-  // delete on tag by its `id` value
+router.delete('/:id', async (req, res) => {
+  try {
+     // Attempt to delete the tag with the specified ID
+    const deleted = await Tag.destroy({ where: { id: req.params.id} });
+
+    // Check if the tag was deleted successfully
+    if (!deleted) {
+    return res.status(400).json({ message: "Request unable to be fulfilled, no tag with this id found!"})
+    }
+
+    // Return a success message along with the deleted product
+    res.status(200).json(deleted);
+  } catch (err) {
+     // Handle any errors that occur during the deletion process
+    return res.status(500).json({ message: "Request unable to be fulfilled, tag deletion failed!"});
+  }
 });
 
 module.exports = router;

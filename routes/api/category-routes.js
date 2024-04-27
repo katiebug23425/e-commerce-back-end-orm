@@ -36,7 +36,10 @@ router.post('/', async (req, res) => {
 router.put('/:id', async (req, res) => {
   try {
     const [updated] = await Category.update(req.body, { where: { id: req.params.id } });
-    !updated ? res.status(404).json({ message: "Request unable to be fulfilled, id not found!" }) : res.status(200).json(updated);
+    if (!updated) {
+      return res.status(404).json({ message: "Request unable to be fulfilled, id not found!" })
+     }
+      return res.status(200).json(updated);
   } catch (err) {
     return res.status(500).json({ message: "Request unable to be fulfilled, Category update failed!" });
   }
@@ -45,7 +48,10 @@ router.put('/:id', async (req, res) => {
 router.delete('/:id', async (req, res) => {
   try {
     const [deleted] = await Category.destroy({ where: { id: req.params.id} });
-    !deleted ? res.status(404).json({ message: "Request unable to be fulfilled, id not found!" }) : res.status(200).json(deleted);
+    if (!deleted) {
+      return res.status(404).json({ message: "Request unable to be fulfilled, id not found!" }) 
+    }
+      return res.status(200).json(deleted);
   } catch (err) {
     return res.status(500).json({ message: "Request unable to be fulfilled, Category deletion failed!" });
   }
