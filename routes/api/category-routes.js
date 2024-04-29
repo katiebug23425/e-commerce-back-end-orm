@@ -3,15 +3,17 @@ const { Category, Product } = require('../../models');
 
 // The `/api/categories` endpoint
 
+// get all categories
 router.get('/', async (req, res) => {
   try {
     const categories = await Category.findAll({ include: [{model: Product}] });
     return res.status(200).json(categories);
   } catch (err) {
-    return res.status(500).json({ message: "Request unable to be fulfilled, not found!"})
+    return res.status(500).json({ message: "Request unable to be fulfilled, categories not found!"})
   }
 });
 
+// get one category
 router.get('/:id', async (req, res) => {
   try {
     const category = await Category.findByPk(req.params.id, { include: [{ model: Product}] });
@@ -24,6 +26,7 @@ router.get('/:id', async (req, res) => {
   }
 });
 
+// create new category
 router.post('/', async (req, res) => {
   try {
     const createdCategory = await Category.create(req.body);
@@ -33,6 +36,7 @@ router.post('/', async (req, res) => {
   }
 });
 
+// update category
 router.put('/:id', async (req, res) => {
   try {
     const [updated] = await Category.update(req.body, { where: { id: req.params.id } });
@@ -45,6 +49,7 @@ router.put('/:id', async (req, res) => {
   }
 });
 
+// delete category
 router.delete('/:id', async (req, res) => {
   try {
     const [deleted] = await Category.destroy({ where: { id: req.params.id} });

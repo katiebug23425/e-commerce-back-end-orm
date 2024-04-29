@@ -3,6 +3,7 @@ const { Tag, Product, ProductTag } = require('../../models');
 
 // The `/api/tags` endpoint
 
+
 router.get('/', async (req, res) => {
   try {
     // Fetch all tags and include associated products
@@ -51,6 +52,7 @@ router.post('/', async (req, res) => {
   }
 });
 
+// update tag
 router.put('/:id', async (req, res) => {
   try {
     const updatedTag = await Tag.update(req.body, {
