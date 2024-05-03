@@ -19,5 +19,7 @@ Create a .env file using the example file provided and enter your user name and 
 
 ## Link to walkthrough video showing finished app:
 
+https://drive.google.com/file/d/1LbpECDp5USNbuaC3lNFkR5VgSM0h-iNR/view
+
 ## Credits
 Xpert Learning Asst
